@@ -1,13 +1,8 @@
-# Create WorkDrive Folders
+# Create a Meeting on Zoho CRM
 
-This function will help you upload attachments to a record.
+This function will help you create an event for a record on crm.
 
 # Instructions
-### Creating Connection
-1. Go to **Settings** > **Connections**
-2. Search for **Zoho OAuth**
-3. Create a connection named `crm`
-4. Authenticate the connection 
 
 ### Creating Function
 1. Go to **Settings** > **Functions**
@@ -31,7 +26,7 @@ This function will help you upload attachments to a record.
 # How to use it?
 Once the function is created your can use this functions inside other functions following these examples:
 
-### Example 1: Single Folder
+### Example 1: Creating Meeting
     // Creating a folder for a deal
     
     template_id = "oeiuuo2iueituoeiuoweirgt6854dt";
@@ -45,26 +40,6 @@ Once the function is created your can use this functions inside other functions 
     
     // Here we print the folder id
     info folder.get("id");
-  
-
- ### Example 2: Nested Folder
-
-    // Creating a folder for a deal
-    
-    template_id = "oeiuuo2iueituoeiuoweirgt6854dt";
-    parentfolder_id = "oeiuuo2iueituoeiuoweirgt6854dt";
-    
-    deal = zoho.crm.getRecordById("Deals", 39839839849389);
-    
-    folder_name = deal.get("Deal_Name") + " - " + zoho.currentdate;
-    
-    // Here the folder is created
-    folder = standalone.ABRCreateFolder(parentfolder_id, folder_name).toMap();
-    
-    subfolder_name = "Internal";
-    
-    // Here the subfolder is created
-    subfolder_name = standalone.ABRCreateFolder(folder.get("id"), subfolder_name).toMap();
 
 
 # Limitations
