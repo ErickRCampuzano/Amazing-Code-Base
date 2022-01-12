@@ -1,0 +1,6 @@
+noteMap= Map();
+noteMap.put("Note_Content", "ENTER CONTENT HERE");
+noteMap.put("Note_Title", "ENTER TITLE HERE");
+noteMap.put("ParentId", "ENTER RECORD ID HERE");
+noteMap.put("$se_module", "ENTER MODULE API NAME HERE");
+note = zoho.crm.createRecord("Notes", noteMap);
