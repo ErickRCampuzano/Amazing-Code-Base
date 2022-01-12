@@ -1,6 +1,6 @@
 # Create WorkDrive Folders
 
-This function will help you upload attachments to a record.
+This function will help you create folders on WorkDrive.
 
 # Instructions
 ### Creating Connection
