@@ -1,0 +1,33 @@
+workdrive_folder = zoho.workdrive.createFolder(folder_name,parentfolder_id,"workdrive");
+
+folder_creation_time = workdrive_folder.get("data").get("attributes").get("created_time_in_millisecond");
+folder_id = workdrive_folder.get("data").get("id");
+workdrive_permalink = workdrive_folder.get("data").get("attributes").get("permalink");
+//Generate password
+password = "";
+year = now.getYear();
+seconds = now.getSeconds();
+password = password + year.toString().left(2);
+password = password + Today.day() + 40;
+password = password + "&";
+password = password + Contact.get("Last_Name").left(4);
+password = password + seconds;
+password = password + IF(seconds % 2 == 0,"_","$");
+headers = Map();
+headers.put("Accept","application/vnd.api+json");
+sharing_parameters = "{\"data\": {\"attributes\":{\"resource_id\":\"" + folder_id + "\", \"link_name\": \"" + folder_name + "\", \"request_user_data\": false,\"password_text\": " + password + ", \"allow_download\": true, \"role_id\":\"6\" }, \"type\": \"links\" } }";
+create_sharing_link = invokeurl
+[
+	url :"https://workdrive.zoho.com/api/v1/links"
+	type :POST
+	parameters:sharing_parameters.toString()
+	headers:headers
+	connection:"workdriveconnection"
+];
+sharing_link = create_sharing_link.get("data").get("attributes").get("link");
+update_map = Map();
+update_map.put("WorkDrive_Link",workdrive_permalink);
+update_map.put("WorkDrive_External_Link",sharing_link);
+update_map.put("WorkDrive_External_Password",password);
+update_map.put("WorkDrive_Folder_Creation_Time",folder_creation_time.toTime("yyyy-MM-dd'T'HH:mm:ss").toString("yyyy-MM-dd'T'HH:mm:ss"));
+return response;

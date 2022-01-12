@@ -1,0 +1,37 @@
+lead = zoho.crm.getRecordById("Leads",lead_id);
+parent_id = "ppqmle0e4f03706fb414286c696371b1e45e8";
+folder_name = lead.get("First_Name") + " " + lead.get("Last_Name");
+folder = zoho.workdrive.createFolder(folder_name,parent_id,"workdrive");
+pictures_folder = zoho.workdrive.createFolder("Pictures",folder.get("data").get("id"),"workdrive");
+leadMap = Map();
+leadMap.put("WorkDrive_Main_Folder",folder.get("data").get("attributes").get("permalink"));
+// Create Collection
+header = Map();
+header.put("Accept","application/vnd.api+json");
+attributes = Map();
+attributes.put("parent_id",pictures_folder.get("data").get("id"));
+//attributes.put("parent_id","ppqml655d0179582942d4b5e3e9e2c7693825");
+attributes.put("collection_name","Buy My Car Pictures Collection");
+attributes.put("is_external",true);
+attributes.put("request_user_data",true);
+fields = List();
+fields.add({"field_name":"Name","field_type":"TEXT","is_name_field":true});
+attributes.put("input_fields",fields);
+data = Map();
+data.put("attributes",attributes);
+data.put("type","collections");
+params = Map();
+params.put("data",data);
+info params;
+response = invokeurl
+[
+	url :"https://workdrive.zoho.com/api/v1/collections"
+	type :POST
+	parameters:params.toString()
+	headers:header
+	connection:"workdrive"
+];
+info response;
+link = response.get("data").get("attributes").get("link");
+leadMap.put("External_Collection_Link",link);
+info zoho.crm.updateRecord("Leads",lead_id,leadMap);
